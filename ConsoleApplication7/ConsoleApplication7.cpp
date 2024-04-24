@@ -109,26 +109,29 @@ int main()
 
     int i = 0;
     int consoleWidth = 120;
+    char* cypher;
 
     while (true) {
         //posielanie
 
-        if (i >= 4) {
+        if (i >= 2) {
             SetConsoleTextAttribute(hConsole, 1);
         }
 
         char sendbuf[4096]; //buffer (v zasade retazec), kam sa budu ukladat data, ktore chcete posielat
 
-        if (i == 5) {
+        if (i == 3) {
             sendbuf[0] = IdDivision(127858) + '0';
             printf("%c\n", sendbuf[0]);
-            i++;
+        }
+        else if (i == 6) {
+
         }
         else {
             fgets(sendbuf, 4096, stdin);
         }
 
-        if (i >= 6) {
+        if (i >= 4) {
             printf("\n");
             int prevGap = 0;
             int prevEnter = 0;
@@ -160,7 +163,7 @@ int main()
             WSACleanup();
             return 1;
         }
-        if (i >= 4) {
+        if (i >= 2) {
             SetConsoleTextAttribute(hConsole, 5);
         }
 
@@ -183,19 +186,19 @@ int main()
 
             recvbuf[iResult] = '\0'; // Add null-terminator to make it a valid C-string
 
-            if (!(strstr(recvbuf, "You didn't send the correct remainder, try again...") != NULL)) {
+            if ((strstr(recvbuf, "844848") != NULL) || (strstr(recvbuf, "753422") != NULL) || (strstr(recvbuf, "It can't be hard-coded.") != NULL) || (strstr(recvbuf, "333222334") != NULL) || (strstr(recvbuf, "XOR 55") != NULL) || (strstr(sendbuf, "123") != NULL)) {
                 i++;
             }
 
-            if (i == 3) {
+            if (i == 1) {
                 printf("\nRudenko Roman\n\n");
             }
 
-            if (i >= 4) {
+            if (i >= 2) {
                 SetConsoleTextAttribute(hConsole, 10);
             }
 
-            if (i >= 6) {
+            if (i >= 4) {
                 printf("\n");
                 int prevGap = 0;
                 int prevEnter = 0;
@@ -229,11 +232,20 @@ int main()
                 }
                 printf("\n");
             }
+            else if (i == 6) {
+                cypher = recvbuf;
+                for (int j = 0; j < iResult; j++) {
+                    printf("%d", recvbuf[j]);
+                    if (i >= 1) {
+                        Sleep(10);//100
+                    }
+                }
+            }
 
             else {
                 for (int j = 0; j < iResult; j++) {
                     printf("%c", recvbuf[j]);
-                    if (i >= 3) {
+                    if (i >= 1) {
                         Sleep(10);//100
                     }
                 }
