@@ -1,4 +1,2 @@
 ﻿  ConsoleApplication7.cpp
-C:\Users\rroma\Projects\C\ConsoleApplication7\ConsoleApplication7\ConsoleApplication7.cpp(123,20): warning C4477: 'printf' : format string '%c' requires an argument of type 'int', but variadic argument 1 has type 'char *'
-C:\Users\rroma\Projects\C\ConsoleApplication7\ConsoleApplication7\ConsoleApplication7.cpp(123,20): warning C4313: 'printf': '%c' in format string conflicts with argument 1 of type 'char *'
   ConsoleApplication7.vcxproj -> C:\Users\rroma\Projects\C\ConsoleApplication7\x64\Debug\ConsoleApplication7.exe

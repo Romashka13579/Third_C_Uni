@@ -108,12 +108,13 @@ int main()
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
     int i = 0;
+    int consoleWidth = 120;
 
     while (true) {
         //posielanie
 
         if (i >= 4) {
-            SetConsoleTextAttribute(hConsole, 4);
+            SetConsoleTextAttribute(hConsole, 1);
         }
 
         char sendbuf[4096]; //buffer (v zasade retazec), kam sa budu ukladat data, ktore chcete posielat
@@ -125,6 +126,30 @@ int main()
         }
         else {
             fgets(sendbuf, 4096, stdin);
+        }
+
+        if (i >= 6) {
+            printf("\n");
+            int prevGap = 0;
+            int prevEnter = 0;
+            for (int j = 0; j <= strlen(sendbuf); j++) {
+                if (sendbuf[j] == ' ') { 
+                    if ((j - 60 * prevEnter) < consoleWidth / 2) {
+                        for (int k = prevGap; k < j; k++) {
+                            printf("%c", sendbuf[k]);
+                        }
+                    }
+                    else {
+                        printf("\n");
+                        for (int k = prevGap+1; k < j; k++) {
+                            printf("%c", sendbuf[k]);
+                        }
+                        prevEnter++;
+                    }
+                    prevGap = j;
+                }
+            }
+            printf("\n");
         }
 
         iResult = send(ConnectSocket, sendbuf, (int)strlen(sendbuf), 0);
@@ -170,12 +195,50 @@ int main()
                 SetConsoleTextAttribute(hConsole, 10);
             }
 
-            for (int j = 0; j < iResult; j++) {
-                printf("%c", recvbuf[j]);
-                if (i >= 3) {
-                    Sleep(10);//100
+            if (i >= 6) {
+                printf("\n");
+                int prevGap = 0;
+                int prevEnter = 0;
+                for (int l = 0; l < 60; l++) {
+                    printf(" ");
+                }
+                for (int j = 0; j <= strlen(recvbuf); j++) {
+                    if (recvbuf[j] == ' ' || recvbuf[j] == '\0') {
+                        if ((j - prevEnter) < consoleWidth / 2) {
+                            for (int k = prevGap; k < j; k++) {
+                                printf("%c", recvbuf[k]);
+                                Sleep(10);//100
+                            }
+                        }
+                        else {
+                            printf("\n");
+                            j++;
+                            for (int l = 0; l < 60; l++) {
+                                printf(" ");
+                            }
+                            int wordlen = 0;
+                            for (int k = prevGap + 1; k < j; k++) {
+                                printf("%c", recvbuf[k]);
+                                Sleep(10);//100
+                                wordlen = k;
+                            }
+                            prevEnter = j - (j - prevGap + 1);
+                        }
+                        prevGap = j;
+                    }
+                }
+                printf("\n");
+            }
+
+            else {
+                for (int j = 0; j < iResult; j++) {
+                    printf("%c", recvbuf[j]);
+                    if (i >= 3) {
+                        Sleep(10);//100
+                    }
                 }
             }
+
             //printf("Received data: %s\n", recvbuf);
         }
         else if (iResult == 0)
